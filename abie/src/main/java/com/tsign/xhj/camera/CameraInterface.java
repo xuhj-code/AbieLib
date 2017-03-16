@@ -82,7 +82,7 @@ public class CameraInterface {
                     mParams.getSupportedPreviewSizes(), previewRate, 800);
             mParams.setPreviewSize(previewSize.width, previewSize.height);
 
-            mCamera.setDisplayOrientation(90);
+            mCamera.setDisplayOrientation(270);
 
             CamParaUtil.getInstance().printSupportFocusMode(mParams);
             List<String> focusModes = mParams.getSupportedFocusModes();
