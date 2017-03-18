@@ -13,6 +13,7 @@ import android.hardware.Camera.Face;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import com.tsign.xhj.R;
 import com.tsign.xhj.camera.CameraInterface;
 import com.tsign.xhj.util.Util;
 
@@ -31,7 +32,7 @@ public class FaceView extends ImageView {
         // TODO Auto-generated constructor stub
         initPaint();
         mContext = context;
-        mFaceIndicator = getResources().getDrawable(com.tsign.xhj.R.drawable.ic_face_find_2);
+        mFaceIndicator = getResources().getDrawable(R.drawable.ic_face_find_2);
     }
 
 

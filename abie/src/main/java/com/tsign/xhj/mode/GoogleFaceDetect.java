@@ -24,7 +24,7 @@ public class GoogleFaceDetect implements FaceDetectionListener {
     public void onFaceDetection(Face[] faces, Camera camera) {
         // TODO Auto-generated method stub
 
-        Log.i(TAG, "onFaceDetection...");
+        Log.v(TAG, "onFaceDetection...");
         if (faces != null) {
 
             Message m = mHander.obtainMessage();

@@ -19,6 +19,8 @@ package com.tsign.xhj.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 
 /**
  * Created by lizhaotailang on 2016/3/18.
@@ -31,9 +33,9 @@ public class NetworkState {
 
     // 检查是否连接到网络
     // whether connect to internet
-    public static boolean networkConnected(Context context){
+    public static boolean networkConnected(Context context) {
 
-        if (context != null){
+        if (context != null) {
             ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo info = manager.getActiveNetworkInfo();
             if (info != null)
@@ -45,11 +47,11 @@ public class NetworkState {
 
     // 检查WiFi是否连接
     // if wifi connect
-    public static boolean wifiConnected(Context context){
-        if (context != null){
+    public static boolean wifiConnected(Context context) {
+        if (context != null) {
             ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo info = manager.getActiveNetworkInfo();
-            if (info != null){
+            if (info != null) {
                 if (info.getType() == ConnectivityManager.TYPE_WIFI)
                     return info.isAvailable();
             }
@@ -59,16 +61,39 @@ public class NetworkState {
 
     // 检查移动网络是否连接
     // if mobile data connect
-    public static boolean mobileDataConnected(Context context){
-        if (context != null){
+    public static boolean mobileDataConnected(Context context) {
+        if (context != null) {
             ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
             NetworkInfo info = manager.getActiveNetworkInfo();
-            if (info != null){
+            if (info != null) {
                 if (info.getType() == ConnectivityManager.TYPE_MOBILE)
                     return true;
             }
         }
         return false;
+    }
+
+    /**
+     * http://www.goteny.com/develop/android/201412/452.html
+     * 2017-1-20 15:36:50
+     */
+
+    public static String getMac(Context mCxt) {
+
+        String macAddress = null;
+        WifiManager wifiManager =
+                (WifiManager) mCxt.getSystemService(Context.WIFI_SERVICE);
+        WifiInfo info = (null == wifiManager ? null : wifiManager.getConnectionInfo());
+
+        if (!wifiManager.isWifiEnabled()) {
+            //必须先打开，才能获取到MAC地址
+            wifiManager.setWifiEnabled(true);
+            wifiManager.setWifiEnabled(false);
+        }
+        if (null != info) {
+            macAddress = info.getMacAddress();
+        }
+        return macAddress;
     }
 
 }
