@@ -10,6 +10,7 @@ import android.view.SurfaceView;
 
 import com.tsign.xhj.camera.CameraInterface;
 
+
 public class CameraSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private static final String TAG = "zbb";
     CameraInterface mCameraInterface;

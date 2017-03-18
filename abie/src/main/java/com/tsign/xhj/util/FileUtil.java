@@ -36,8 +36,7 @@ public class FileUtil {
      *
      * @param b
      */
-    public static void saveBitmap(Bitmap b) {
-
+    public static boolean saveBitmap(Bitmap b) {
         String path = initPath();
         long dataTake = System.currentTimeMillis();
         String jpegName = path + "/" + dataTake + ".jpg";
@@ -49,12 +48,13 @@ public class FileUtil {
             bos.flush();
             bos.close();
             Log.i(TAG, "saveBitmap成功");
+            return true;
         } catch (IOException e) {
             // TODO Auto-generated catch block
             Log.i(TAG, "saveBitmap:失败");
             e.printStackTrace();
+            return false;
         }
-
     }
 
 

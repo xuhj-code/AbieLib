@@ -13,7 +13,6 @@ import android.hardware.Camera.Face;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.tsign.xhj.R;
 import com.tsign.xhj.camera.CameraInterface;
 import com.tsign.xhj.util.Util;
 
@@ -32,7 +31,7 @@ public class FaceView extends ImageView {
         // TODO Auto-generated constructor stub
         initPaint();
         mContext = context;
-        mFaceIndicator = getResources().getDrawable(R.drawable.ic_face_find_2);
+        mFaceIndicator = getResources().getDrawable(com.tsign.xhj.R.drawable.ic_face_find_2);
     }
 
 
@@ -60,7 +59,7 @@ public class FaceView extends ImageView {
         } else if (Id == CameraInfo.CAMERA_FACING_FRONT) {
             isMirror = true;  //前置Camera需要mirror
         }
-        Util.prepareMatrix(mMatrix, isMirror, 90, getWidth(), getHeight());
+        Util.prepareMatrix(mMatrix, isMirror, 0, getWidth(), getHeight());
         canvas.save();
         mMatrix.postRotate(0); //Matrix.postRotate默认是顺时针
         canvas.rotate(-0);   //Canvas.rotate()默认是逆时针

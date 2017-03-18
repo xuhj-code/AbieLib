@@ -1,7 +1,5 @@
 package com.tsign.xhj.camera;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
 import android.hardware.Camera.PictureCallback;
@@ -11,17 +9,15 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 
 import com.tsign.xhj.util.CamParaUtil;
-import com.tsign.xhj.util.FileUtil;
-import com.tsign.xhj.util.ImageUtil;
 
 import java.io.IOException;
 import java.util.List;
 
 public class CameraInterface {
     private static final String TAG = "zbb";
-    private Camera mCamera;
+    public Camera mCamera;
     private Camera.Parameters mParams;
-    private boolean isPreviewing = false;
+    public boolean isPreviewing = false;
     private float mPreviwRate = -1f;
     private int mCameraId = -1;
     private boolean isGoolgeFaceDetectOn = false;
@@ -82,7 +78,7 @@ public class CameraInterface {
                     mParams.getSupportedPreviewSizes(), previewRate, 800);
             mParams.setPreviewSize(previewSize.width, previewSize.height);
 
-            mCamera.setDisplayOrientation(270);
+            mCamera.setDisplayOrientation(0);
 
             CamParaUtil.getInstance().printSupportFocusMode(mParams);
             List<String> focusModes = mParams.getSupportedFocusModes();
@@ -127,7 +123,8 @@ public class CameraInterface {
     /**
      * 拍照
      */
-    public void doTakePicture() {
+    public void doTakePicture(PictureCallback mJpegPictureCallback) {
+
         if (isPreviewing && (mCamera != null)) {
             mCamera.takePicture(mShutterCallback, null, mJpegPictureCallback);
         }
@@ -180,30 +177,32 @@ public class CameraInterface {
 
         }
     };
-    PictureCallback mJpegPictureCallback = new PictureCallback()
-            //对jpeg图像数据的回调,最重要的一个回调
-    {
-        public void onPictureTaken(byte[] data, Camera camera) {
-            // TODO Auto-generated method stub
-            Log.i(TAG, "myJpegCallback:onPictureTaken...");
-            Bitmap b = null;
-            if (null != data) {
-                b = BitmapFactory.decodeByteArray(data, 0, data.length);//data是字节数据，将其解析成位图
-                mCamera.stopPreview();
-                isPreviewing = false;
-            }
-            //保存图片到sdcard
-            if (null != b) {
-                //设置FOCUS_MODE_CONTINUOUS_VIDEO)之后，myParam.set("rotation", 90)失效。
-                //图片竟然不能旋转了，故这里要旋转下
-                Bitmap rotaBitmap = ImageUtil.getRotateBitmap(b, 90.0f);
-                FileUtil.saveBitmap(rotaBitmap);
-            }
-            //再次进入预览
-            mCamera.startPreview();
-            isPreviewing = true;
-        }
-    };
-
-
+//    PictureCallback mJpegPictureCallback = new PictureCallback()
+//            //对jpeg图像数据的回调,最重要的一个回调
+//    {
+//        public void onPictureTaken(byte[] data, Camera camera) {
+//            // TODO Auto-generated method stub
+//            Log.i(TAG, "myJpegCallback:onPictureTaken...");
+//            Bitmap b = null;
+//            if (null != data) {
+//                b = BitmapFactory.decodeByteArray(data, 0, data.length);//data是字节数据，将其解析成位图
+//                mCamera.stopPreview();
+//                isPreviewing = false;
+//            }
+//            //保存图片到sdcard
+//            if (null != b) {
+//                //设置FOCUS_MODE_CONTINUOUS_VIDEO)之后，myParam.set("rotation", 90)失效。
+//                //图片竟然不能旋转了，故这里要旋转下
+//                Bitmap rotaBitmap = ImageUtil.getRotateBitmap(b, -90.0f);
+//                String path = initPath();
+//                long dataTake = System.currentTimeMillis();
+//                String jpegName = path + "/" + dataTake + ".jpg";
+//                setFileName(dataTake + ".jpg");
+//                saveBitmap(rotaBitmap, jpegName);
+//            }
+//            //再次进入预览
+//            mCamera.startPreview();
+//            isPreviewing = true;
+//        }
+//    };
 }
