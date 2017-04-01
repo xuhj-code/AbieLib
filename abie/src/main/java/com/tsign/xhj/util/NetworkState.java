@@ -74,24 +74,28 @@ public class NetworkState {
     /**
      * http://www.goteny.com/develop/android/201412/452.html
      * 2017-1-20 15:36:50
+     * 我根据项目来设置了一下debug的方法
      */
 
-    public static String getMac(Context mCxt) {
+    public static String getMac(Context mCxt, boolean isDebug, String mac) {
+        if (!isDebug) {
+            String macAddress = null;
+            WifiManager wifiManager =
+                    (WifiManager) mCxt.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo info = (null == wifiManager ? null : wifiManager.getConnectionInfo());
 
-        String macAddress = null;
-        WifiManager wifiManager =
-                (WifiManager) mCxt.getSystemService(Context.WIFI_SERVICE);
-        WifiInfo info = (null == wifiManager ? null : wifiManager.getConnectionInfo());
-
-        if (!wifiManager.isWifiEnabled()) {
-            //必须先打开，才能获取到MAC地址
-            wifiManager.setWifiEnabled(true);
-            wifiManager.setWifiEnabled(false);
+            if (!wifiManager.isWifiEnabled()) {
+                //必须先打开，才能获取到MAC地址
+                wifiManager.setWifiEnabled(true);
+                wifiManager.setWifiEnabled(false);
+            }
+            if (null != info) {
+                macAddress = info.getMacAddress();
+            }
+            return macAddress;
+        } else {
+            return mac;
         }
-        if (null != info) {
-            macAddress = info.getMacAddress();
-        }
-        return macAddress;
     }
 
 }

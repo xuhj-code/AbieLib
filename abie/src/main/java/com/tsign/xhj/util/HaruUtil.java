@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
@@ -22,7 +24,40 @@ import java.util.HashMap;
 
 public class HaruUtil {
 
+    private static long lastClickTime;
     private static String TAG = "HaruUtil";
+
+    public static int getAppVersionCode(Context context) {
+        if (context != null) {
+            PackageManager pm = context.getPackageManager();
+            if (pm != null) {
+                try {
+                    PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+                    if (pi != null) {
+                        return pi.versionCode;
+                    }
+                } catch (PackageManager.NameNotFoundException var4) {
+                    var4.printStackTrace();
+                }
+            }
+        }
+
+        return -1;
+    }
+
+    /**
+     * @return
+     */
+    public static boolean isFastDoubleClick() {
+        long time = System.currentTimeMillis();
+        long timeD = time - lastClickTime;
+        if (0 < timeD && timeD < 800) {
+            return true;
+        }
+        lastClickTime = time;
+        return false;
+
+    }
 
     /**
      * 2016年12月3日15:36:10
